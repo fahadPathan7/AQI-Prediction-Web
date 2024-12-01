@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Leaf Classification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+    <h1 class="text-center">Air Quality Index (AQI) Measurement</h1>
+
+    <form class="p-3 text-center" action='/' , method="post" enctype="multipart/form-data">
+        <input class="form-control-sm" type="file" name="imagefile">
+        <br>
+        <input class="btn btn-primary mt-3" type="submit" value="Predict Image">
+    </form>
+
+    {% if prediction %}
+    <h3 class="text-center">Prediction</h3>
+    <br>
+    <p class="text-center">AQI index is: <b>{{ prediction }}</b></p>
+    <br>
+    <div class="d-flex justify-content-center">
+        <div class="p-2">
+            <h4 class="text-center">Original Image</h4>
+            <img class="center" src="{{ url_for('static', filename='images/' + imagefile) }}" alt="Image" width="380" height="210">
+        </div>
+        <div class="p-2">
+            <h4 class="text-center">LIME Explanation</h4>
+            <img class="center" src="{{ url_for('static', filename='images/lime_plot.png') }}" alt="LIME Explanation" width="400" height="240">
+        </div>
+    </div>
+{% endif %}
+
+</body>
+
+</html>
