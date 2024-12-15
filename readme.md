@@ -84,7 +84,7 @@ We have trained our proposed model **(DeepAQNet)** on the dataset of Dhaka, Bang
     <img src='./images/aqi_before.png' width='800' height='400'> <br>
 </div>
 
-<p style="font-size: 25px; text-align: center;">⬇️</p>
+<p align='center' style="font-size: 25px; text-align: center;">⬇️</p>
 
 <div align='center'>
     <b>📷 After Uploading & Predicting the Image</b> <br>
