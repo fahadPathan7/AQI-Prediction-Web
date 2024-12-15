@@ -70,6 +70,9 @@ def predict():
     # Load the uploaded image
     imagefile = request.files['imagefile']
     image_filename = imagefile.filename
+    # if the image_filename is empty or not jpg or jpeg, return an error message
+    if image_filename == '' or not (image_filename.endswith('.jpg') or image_filename.endswith('.jpeg') or image_filename.endswith('.JPG') or image_filename.endswith('.JPEG')):
+        return render_template('index.html', error="Please upload a valid image file (JPG or JPEG).")
     image_path = os.path.join("static/images/", image_filename)
 
     # Ensure the directory exists and has write permissions
@@ -98,34 +101,34 @@ def predict():
     # Extract the prediction value and convert it to an integer
     prediction_value = int(prediction[0][0])
 
-    # Convert the preprocessed image to a NumPy array for LIME
-    preprocessed_image_np = preprocessed_image.numpy()
+    # # Convert the preprocessed image to a NumPy array for LIME
+    # preprocessed_image_np = preprocessed_image.numpy()
 
-    # Generate LIME explanation
-    explanation = explainer.explain_instance(
-        preprocessed_image_np,  # The preprocessed image to explain
-        predict_fn,   # Prediction function
-        top_labels=1,  # Number of top labels to explain
-        hide_color=0,  # The color for the masked parts
-        num_samples=1000  # Number of samples to generate
-    )
+    # # Generate LIME explanation
+    # explanation = explainer.explain_instance(
+    #     preprocessed_image_np,  # The preprocessed image to explain
+    #     predict_fn,   # Prediction function
+    #     top_labels=1,  # Number of top labels to explain
+    #     hide_color=0,  # The color for the masked parts
+    #     num_samples=1000  # Number of samples to generate
+    # )
 
-    # Get the explanation for the top label
-    temp, mask = explanation.get_image_and_mask(
-        explanation.top_labels[0],
-        positive_only=False,
-        num_features=10,
-        hide_rest=False
-    )
+    # # Get the explanation for the top label
+    # temp, mask = explanation.get_image_and_mask(
+    #     explanation.top_labels[0],
+    #     positive_only=False,
+    #     num_features=10,
+    #     hide_rest=False
+    # )
 
-    plt.imshow(mark_boundaries(temp, mask))
-    # plt.title(f'LIME Explanation')
-    lime_plot_path = os.path.join("static/images/", "lime_plot.png")
-    plt.savefig(lime_plot_path)
-    plt.close()
+    # plt.imshow(mark_boundaries(temp, mask))
+    # # plt.title(f'LIME Explanation')
+    # lime_plot_path = os.path.join("static/images/", "lime_plot.png")
+    # plt.savefig(lime_plot_path)
+    # plt.close()
 
     # Return the prediction result
-    return render_template('index.html', imagefile=image_filename, prediction=prediction_value, lime_plot_path=lime_plot_path)
+    return render_template('index.html', imagefile=image_filename, prediction=prediction_value)
 
 # Run the app
 if __name__ == '__main__':
